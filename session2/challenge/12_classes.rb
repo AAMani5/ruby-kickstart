@@ -34,8 +34,8 @@ class Fraction
 
   def lowest
     common_divisor = gcd(numerator, denominator)
-    @numerator = @numerator/common_divisor
-    @denominator = @denominator/common_divisor
+    self.numerator = self.numerator/common_divisor
+    self.denominator = self.denominator/common_divisor
     self # has to return a object of type Fraction, since I am making changes to inst var, i am returning self(which is an instance of Fraction)
   end
 
