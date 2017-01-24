@@ -21,6 +21,28 @@
 # f.to_f               # => 0.5
 
 class Fraction
+  attr_accessor :numerator, :denominator
+
+  def initialize(numerator, denominator)
+    @numerator = numerator
+    @denominator = denominator
+  end
+
+  def to_f
+    numerator.fdiv(denominator)
+  end
+
+  def lowest
+    common_divisor = gcd(numerator, denominator)
+    @numerator = @numerator/common_divisor
+    @denominator = @denominator/common_divisor
+    self # has to return a object of type Fraction, since I am making changes to inst var, i am returning self(which is an instance of Fraction)
+  end
+
+  def to_s
+    "#{numerator}/#{denominator}"
+  end
+
   def gcd(a,b)
     return a if b == 0
     gcd(b, a%b)
