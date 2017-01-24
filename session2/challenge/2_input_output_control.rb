@@ -1,5 +1,5 @@
 # Prompt the user for a number, then read it in and print out "hi" that many times
-# 
+#
 # Repeat this process until the user submits "bye", then say "goodbye" and end the program
 # HINT: Check out example 2 if you get stuck
 
@@ -19,13 +19,25 @@
 # and when you think it is correct, you can test it with  $ rake 2:2
 
 def hi_hi_goodbye
-  # your code here
+  question
+  user_input = gets.chomp
+  until user_input == "bye"
+    user_input.to_i.times {print "hi "}
+    puts
+    question
+    user_input = gets.chomp
+  end
+  puts "goodbye!"
+end
+
+def question
+  puts "Please enter a number or 'bye'"
 end
 
 
 
 
 # This will just invoke the method if you run this program directly
-# This way you can try it out by running "$ ruby 2_input_output_control.rb" 
+# This way you can try it out by running "$ ruby 2_input_output_control.rb"
 # but it will still work for our tests
 hi_hi_goodbye if $0 == __FILE__
