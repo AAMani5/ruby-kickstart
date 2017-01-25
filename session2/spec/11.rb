@@ -38,6 +38,10 @@ RSpec.describe 'BeerSong' do
     check_results_for 3
   end
 
+  it 'prints the third stanza when there are 40 bottles of beer' do
+    check_results_for 40
+  end
+
   it 'prints nothing when we have have negative bottles of beer' do
     output = input_output do
       BeerSong.new(-1).print_song
