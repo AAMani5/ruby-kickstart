@@ -8,3 +8,12 @@
 # staircase 4  # => {1 => [], 3 => [2]}
 # staircase 5  # => {1 => [], 3 => [2], 5 =>[2, 4]}
 
+def staircase(num)
+  stair = {}
+  (1..num).each do |key|
+    if key.odd?
+      stair[key] = (1...key).select{|value| value.even?}
+    end
+  end
+  stair
+end
