@@ -17,3 +17,19 @@
 # match_maker true,  true,  true, true, nil     # => [false, true]
 # match_maker true,  true,  true, 0, nil        # => [false, true]
 
+def match_maker(*bools)
+  opposit = bools.shift
+  if opposit
+    bools.each_slice(2).map{|a,b| convert_boolean(a)!=convert_boolean(b)}
+  else
+    bools.each_slice(2).map{|a,b| convert_boolean(a)==convert_boolean(b)}
+  end
+end
+
+def convert_boolean(arg)
+  if arg.to_s == "false" || arg.to_s == ""
+    false
+  else
+    true
+  end
+end
