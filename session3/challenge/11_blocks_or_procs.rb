@@ -43,3 +43,5 @@ end
 #  block_to_proc ||= Proc.new{|i| (i*100).to_s}
 #  Array.new(size, &block_to_proc)
 #end
+
+# http://stackoverflow.com/questions/4908413/how-to-initialize-an-array-in-one-step-using-ruby
