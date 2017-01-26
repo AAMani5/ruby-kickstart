@@ -26,11 +26,14 @@
 
 
 class Person
-  attr_accessor :name
+  attr_accessor :name, :age, :quote
 
-  def initialize(&initializer)
+  def initialize(who, &initializer)
+    @name = who[:name]
+    @age = who[:age]
+    @quote = who[:quote]
     @initializer = initializer
-    initializer.call self
+    reinit if block_given?
   end
 
   def reinit
