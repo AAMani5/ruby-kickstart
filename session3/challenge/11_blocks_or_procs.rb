@@ -29,6 +29,17 @@
 #   end
 # end
 
-
-def array_init
+# using block
+def array_init(size = 5)
+  if block_given?
+    Array.new(size){|i| yield(i)}
+  else
+    Array.new(size){|i| (i*100).to_s}
+  end
 end
+
+# using proc
+#def array_init(size = 5, &block_to_proc)
+#  block_to_proc ||= Proc.new{|i| (i*100).to_s}
+#  Array.new(size, &block_to_proc)
+#end
