@@ -30,11 +30,16 @@ class HTMLTag
     :sans_serif => '"Arial", "Verdana"',
     :monospace  => '"Courier New", "Lucida Console"'
   }
+  COLOR = {
+    :red => "#FF0000",
+    :green =>"#00FF00",
+    :blue => "#0000FF"
+  }
 
   attr_accessor :name, :innerHTML, :options
 
   # options: :multiline should be true or false
-  def initialize(name, innerHTML, options)
+  def initialize(name, innerHTML, options = Hash.new {nil})
     @name, @innerHTML, @options = name, innerHTML, options
   end
 
@@ -43,9 +48,22 @@ class HTMLTag
     FONTS[font]
   end
 
+  def color
+    color = options[:color]
+    COLOR[color]
+  end
+
   def style
-    return nil unless options[:font]
-    "style='font-family:#{font}'"
+    #return nil unless options[:font]
+    if options[:font] && options[:color]
+      "style='font-family:#{font};color:#{color};'"
+    elsif options[:font]
+      "style='font-family:#{font}'"
+    elsif options[:color]
+      "style='color:#{color};'"
+    else
+      nil
+    end
   end
 
   def to_s
@@ -56,3 +74,8 @@ class HTMLTag
   end
 
 end
+
+#html = HTMLTag.new('li', 'baseball', :multiline => false, :color => :red).to_s.chomp
+#puts html # "<li style='color:#FF0000;'>baseball</li>\n" but got "<li >baseball</li>"
+#html  = HTMLTag.new('li', 'baseball', :multiline => false, :color => :red, :font => :sans_serif).to_s.chomp
+#puts html # "<li style='font-family:"Arial", "Verdana";color:#FF0000;'>baseball</li>
