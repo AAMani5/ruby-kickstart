@@ -21,26 +21,21 @@
 # problem_14 2,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => true
 # problem_14 3,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => false
 
-def problem_14(*numbers)
+def problem_14(*numbers) # cannot specify an optional parameter at the end of spat! ref to link below
   selection = numbers.last.is_a?(Hash) ? numbers.pop : Hash.new
-  p selection
-  if selection[:problem] == :same_ends
-    same_ends(numbers)
-  else
-    count_clumps(numbers)
-  end
+  selection[:problem] == :same_ends ? same_ends(*numbers) : count_clumps(*numbers)
 end
 
 def same_ends(*numbers)
-  numbers = numbers.flatten
+  numbers = numbers.flatten # needs flattening when an array is given as input
   n = numbers.shift
   return false if numbers.length < n
   numbers.first(n) == numbers.last(n)
 end
 
-def count_clumps(*numbers)
-  numbers.flatten.chunk{|a|a}.map{|y,ys| ys.count > 1 }.count(true)
+def count_clumps(*numbers) # used chunk method
+  numbers.flatten.chunk{|a|a}.map{|y,ys| ys.count > 1 }.count(true) # needs flattening when array is given as input
 end
 
-p problem_14(1, 2, 2, 3, 4, 4, :problem => :count_clumps)
-p problem_14([5, 6, 45, 99, 13, 5, 6],:problem => :same_ends )
+
+# http://stackoverflow.com/questions/13960678/how-to-define-a-method-in-ruby-using-splat-and-an-optional-hash-at-the-same-time
