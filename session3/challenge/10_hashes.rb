@@ -29,5 +29,20 @@
 # create it from scratch :)
 
 
-def pathify
+def pathify(nested = {})
+  path_result = []
+
+   # workig from inside out by starting at array
+  return nested.collect{|element| "/#{element}" } if !(nested.respond_to?(:has_key?))  # duck-typing to differentiate array from hash. This will be true only for anthing other than hash
+
+  nested.each_pair do |key, value|
+    key = "/#{key}"
+    value = pathify(value)
+    value.each do |new_value|
+      path_result << (key + new_value)
+    end
+  end
+
+  path_result
 end
+p pathify({'usr' => {'bin' => ['ruby'] }})  # => ['/usr/bin/ruby']
