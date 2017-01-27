@@ -21,11 +21,26 @@
 # problem_14 2,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => true
 # problem_14 3,   5, 6, 45, 99, 13, 5, 6,  :problem => :same_ends    # => false
 
-def problem_14
+def problem_14(*numbers)
+  selection = numbers.last.is_a?(Hash) ? numbers.pop : Hash.new
+  p selection
+  if selection[:problem] == :same_ends
+    same_ends(numbers)
+  else
+    count_clumps(numbers)
+  end
 end
 
-def same_ends
+def same_ends(*numbers)
+  numbers = numbers.flatten
+  n = numbers.shift
+  return false if numbers.length < n
+  numbers.first(n) == numbers.last(n)
 end
 
-def count_clumps
+def count_clumps(*numbers)
+  numbers.flatten.chunk{|a|a}.map{|y,ys| ys.count > 1 }.count(true)
 end
+
+p problem_14(1, 2, 2, 3, 4, 4, :problem => :count_clumps)
+p problem_14([5, 6, 45, 99, 13, 5, 6],:problem => :same_ends )
