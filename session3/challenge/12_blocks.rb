@@ -24,35 +24,33 @@
 
 
 def pay_by_visa(order, ccn)
-  order.compute_cost
-  order.compute_shipping
-  order.compute_tax
-  order.payment :type => :visa, :ccn => ccn
-  order.verify_payment
-  order.ship_goods
+  pay_by(order) {
+    order.payment :type => :visa, :ccn => ccn
+    order.verify_payment}
 end
 
 def pay_by_check(order)
-  order.compute_cost
-  order.compute_shipping
-  order.compute_tax
-  order.payment :type => :check, :signed => true
-  order.ship_goods
+  pay_by(order){order.payment :type => :check, :signed => true}
 end
 
 def pay_by_cash(order)
+  pay_by(order){order.payment :type => :cash}
+end
+
+def pay_by_store_credit(order, current_user)
+  pay_by(order) {
+    order.payment :type => :store_credit
+    current_user.store_credit -= order.cost}
+end
+
+def pay_by(order)
   order.compute_cost
   order.compute_shipping
   order.compute_tax
-  order.payment :type => :cash
+  yield
   order.ship_goods
 end
 
-def pay_by_store_credit(order)
-  order.compute_cost
-  order.compute_shipping
-  order.compute_tax
-  order.payment :type => :store_credit
-  current_user.store_credit -= order.cost   # current_user is a method with no params (ie, the customer)
-  order.ship_goods
-end
+# tests didnt allow me to add order.payment to pay_by method so that I can take an Hash for payment options
+# which could then be passed to order.payment
+# if I could include order.payment in pay_by then I only has to pass blocks for 2 method pay_by_visa and pay_by_store_credit
