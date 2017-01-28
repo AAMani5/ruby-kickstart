@@ -7,3 +7,17 @@
 #
 # print_list_in_reverse head   # >> "1\n2\n"
 
+def print_list_in_reverse(hash)
+  puts get_data(hash).reverse
+end
+
+def get_data(hash, results =[])
+  hash.each_value do |value|
+    if value.is_a?(Hash)
+      get_data(value, results)
+    else
+      results << value unless value == nil
+    end
+  end
+  results
+end
