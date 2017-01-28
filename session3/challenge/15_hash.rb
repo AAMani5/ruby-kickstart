@@ -38,3 +38,27 @@
 # middle head                        # => 3
 # head = {:data => 6, :next => head}
 # middle head                        # => 3
+def middle(hash)
+   data = get_data(hash) # get an array of data 
+   data[data.length/2]
+end
+
+def get_data(hash, results =[])
+  hash.each_value do |value|
+    if value.is_a?(Hash)
+      get_data(value, results)
+    else
+      results << value unless value == nil
+    end
+  end
+  results
+end
+
+head = {:data => 1, :next => nil}
+head = {:data => 2, :next => head}
+head = {:data => 3, :next => head}
+head = {:data => 4, :next => head}
+head = {:data => 5, :next => head}
+head = {:data => 6, :next => head}
+# head = {:data => 6,:next => {:data => 5, :next => {:data => 4, :next => {:data => 3, :next => {:data => 2, :next => {:data => 1, :next => nil}}}}}}
+p middle head
