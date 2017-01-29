@@ -37,5 +37,4 @@ def count_clumps(*numbers) # used chunk method
   numbers.flatten.chunk{|a|a}.map{|y,ys| ys.count > 1 }.count(true) # needs flattening when array is given as input
 end
 
-
 # http://stackoverflow.com/questions/13960678/how-to-define-a-method-in-ruby-using-splat-and-an-optional-hash-at-the-same-time
