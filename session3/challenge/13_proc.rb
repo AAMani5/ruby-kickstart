@@ -52,5 +52,26 @@
 #   end
 # end       # => ["a", "m", "r", 1, 3, 4, 9, 2.5, 9.0, 25.8]
 
-def your_sort
+def your_sort(input, &by)
+  size = input.size - 1
+  by ||= Proc.new{|a,b| a<=> b}
+
+  for i in 0..size
+    for j in 0..size
+      block_result = by.call(input[i],input[j])
+      input[i], input[j] = input[j], input[i] if block_result == -1 # could be < 0 in general
+    end
+  end
+  input
 end
+
+p your_sort [24, 0, 68, 44, 68, 47, 42, 66, 89, 22] {|a,b| b <=> a}
+p your_sort ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog'] {|a, b| a[1..1] <=> b[1..1] }
+# => ["lazy", "The", "the", "fox", "dog", "brown", "jumps", "quick", "over"]
+# !!! p your_sort behaving differently to result = your_sort & p result WHY?!!!
+result = your_sort %w(The quick brown fox jumps over the lazy dog) do |a, b|
+   a[1..1] <=> b[1..1]
+ end   # => ["lazy", "The", "the", "fox", "dog", "brown", "jumps", "quick", "over"]
+p result
+ # its because there is precedence different between {} and do..end
+ # http://stackoverflow.com/questions/5587264/do-end-vs-curly-braces-for-blocks-in-ruby
